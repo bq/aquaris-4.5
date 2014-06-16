@@ -168,7 +168,7 @@ typedef enum
 #define AP_CFG_CUSTOM_FILE_GPS_LID_VERNO			"000"
 
 /* audio acf file version */
-#define AP_CFG_RDCL_FILE_AUDIO_COMPFLT_LID_VERNO	"001"
+#define AP_CFG_RDCL_FILE_AUDIO_COMPFLT_LID_VERNO	"002"
 
 /* audio hcf file version */
 #define AP_CFG_RDCL_FILE_HEADPHONE_COMPFLT_LID_VERNO	"001"
