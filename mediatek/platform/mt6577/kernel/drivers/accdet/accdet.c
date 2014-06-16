@@ -949,9 +949,6 @@ static ssize_t notify_sendKeyEvent(int event)
 #endif
 
 //ACCDET state machine switch
-//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-static volatile int Isearphone_plugin=0;
-//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
 static inline void check_cable_type(void)
 {
     int current_status = 0;
@@ -1063,15 +1060,6 @@ static inline void check_cable_type(void)
 		button_status = 1;
 		#endif
 
-		//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-		if((call_status == 0) && button_status)
-		{
-		      input_report_key(kpd_accdet_dev, KEY_PLAYPAUSE, 1);
-		      input_report_key(kpd_accdet_dev, KEY_PLAYPAUSE, 0);
-		      input_sync(kpd_accdet_dev);
-		}
-		//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
-		
              if(button_status)
 		{	
 		#ifdef SW_WORK_AROUND_ACCDET_REMOTE_BUTTON_ISSUE
@@ -1266,10 +1254,6 @@ static inline void check_cable_type(void)
             {
 	        accdet_status = MIC_BIAS;		
 	        cable_type = HEADSET_MIC;
-	        
-	        //aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-	        Isearphone_plugin=1;
-	        //aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
 
 		//ALPS00038030:reduce the time of remote button pressed during incoming call
                 //solution: reduce hook switch debounce time to 0x400
@@ -1282,9 +1266,6 @@ static inline void check_cable_type(void)
 			 #else
 		       accdet_status = PLUG_OUT;		
 		       cable_type = NO_DEVICE;
-		       //aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-		       Isearphone_plugin=0;
-		       ////aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
 			   #ifdef ACCDET_EINT
 		       disable_accdet();
 		       #endif
@@ -2171,10 +2152,7 @@ static int accdet_suspend(struct platform_device *dev, pm_message_t state)  // o
     }
 #else
     // disable ACCDET unit
-    //aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-    //if(call_status == 0)
-    if((call_status == 0)&&(Isearphone_plugin==0))
-    //aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
+    if(call_status == 0)
     {
        pre_state_swctrl = INREG32(ACCDET_STATE_SWCTRL);
        OUTREG32(ACCDET_CTRL, ACCDET_DISABLE);
@@ -2208,10 +2186,7 @@ static int accdet_resume(struct platform_device *dev) // wake up
 	   
 	}
 #else
-	//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay start
-    	//if(call_status == 0)
-    	if((call_status == 0)&&(Isearphone_plugin==0))
-    	//aeon chenmeiai 20121126: for supporting key of "MEDIA_PLAY_PAUSE" to pause mediaplay end
+	if(call_status == 0)
 	{
        enable_clock(MT65XX_PDN_PERI_ACCDET,"ACCDET");
 

@@ -55,7 +55,7 @@ RVCT_PARTIAL_LINK = FALSE
   # Switch-ability:
   #   [Any] -> [Any]
 
-CUSTOM_CFLAGS = #--debug --no_debug_macros
+CUSTOM_CFLAGS = --debug --no_debug_macros
   # Description:
   #   Add custom cflag
   # Option Values:
