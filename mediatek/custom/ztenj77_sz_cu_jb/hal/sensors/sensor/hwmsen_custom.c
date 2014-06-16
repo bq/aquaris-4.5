@@ -54,6 +54,7 @@
 
 struct sensor_t sSensorList[MAX_NUM_SENSORS] = 
 {
+#if 0
 	{ 
 		.name       = "yamaha530 Orientation sensor",
 		.vendor     = "Aichi Steel",
@@ -77,7 +78,7 @@ struct sensor_t sSensorList[MAX_NUM_SENSORS] =
 		.power      = 0.25f,
 		.reserved   = {}
 	}, 
-
+#endif
 	
 	{  
 		.name       = "bma222 3-axis Accelerometer",
